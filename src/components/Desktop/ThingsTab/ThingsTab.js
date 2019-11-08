@@ -13,6 +13,7 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 
 import { things } from "../../../config/data";
+// import axios from 'axios';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -27,25 +28,44 @@ const ThingsTab = () => {
   const classes = useStyles();
 
   const [state, setState] = useState([]);
+  // const [state1, setState1] = useState([]);
 
   useEffect(() => {
-    if (!localStorage.getItem('Когтеточка')) {
-      setState(things)
-    } else {
-      let newState = [];
-      for(let i=0; i<localStorage.length; i++) {
-        newState.push({id: +i, name: localStorage.key(i), isDone: JSON.parse(localStorage.getItem(localStorage.key(i))) })  ;
-      }
-      setState(newState)
-
-    }
+    // const result = axios({
+    //   method: 'post',
+    //   url: "/api/cat",
+    //   // data
+    // });
+    // return result;
+    fetch("/cat")
+      .then(response => {
+        if (!response.ok) {
+          throw new Error (response.statusText)
+        }
+        return response
+      })
+      .then(response => response.json())
+      .then(data => setState(data))
   },[])
 
-  useEffect (() => {
-    state.map(el => {
-      localStorage.setItem(el.name, el.isDone)
-    })
-  },[state])
+  // useEffect(() => {
+  //   if (!localStorage.getItem('Когтеточка')) {
+  //     setState(things)
+  //   } else {
+  //     let newState = [];
+  //     for(let i=0; i<localStorage.length; i++) {
+  //       newState.push({id: +i, name: localStorage.key(i), isDone: JSON.parse(localStorage.getItem(localStorage.key(i))) })  ;
+  //     }
+  //     setState(newState)
+
+  //   }
+  // },[])
+
+  // useEffect (() => {
+  //   state.map(el => {
+  //     localStorage.setItem(el.name, el.isDone)
+  //   })
+  // },[state])
   
   const handleChange = item => {
     setState(
