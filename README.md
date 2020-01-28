@@ -1,3 +1,18 @@
+  in MongoDB:
+    listcatnames - collection of all cat's names - "listcatname"
+      {name: String
+        }
+    things - collection of empty template data - "/things" !!! нужно для каждого кота по имени такой шаблон слать
+      [{title: String,
+        isDone: Boolean,
+        type: String}, ...]
+put('/things') - менять чекбокс по id 
+  
+  // "proxy": "http://localhost:3000/"
+
+  в папке server - nodemon index через bash
+  потом npm start через vs code
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

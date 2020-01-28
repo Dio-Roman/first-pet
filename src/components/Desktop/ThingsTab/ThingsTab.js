@@ -13,7 +13,6 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 
 import { things } from "../../../config/data";
-// import axios from 'axios';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -30,52 +29,29 @@ const ThingsTab = () => {
   const [state, setState] = useState([]);
   // const [state1, setState1] = useState([]);
 
+  // запрос по типу вещи
   useEffect(() => {
-    // const result = axios({
-    //   method: 'post',
-    //   url: "/api/cat",
-    //   // data
-    // });
-    // return result;
-    fetch("/cat")
-      .then(response => {
-        if (!response.ok) {
-          throw new Error (response.statusText)
-        }
-        return response
-      })
+    getList();
+  }, []);
+
+  const getList = () => {
+    fetch("/things") //`/${props.catName}/things`
       .then(response => response.json())
-      .then(data => setState(data))
-  },[])
+      .then(data => setState(data));
+  };
 
-  // useEffect(() => {
-  //   if (!localStorage.getItem('Когтеточка')) {
-  //     setState(things)
-  //   } else {
-  //     let newState = [];
-  //     for(let i=0; i<localStorage.length; i++) {
-  //       newState.push({id: +i, name: localStorage.key(i), isDone: JSON.parse(localStorage.getItem(localStorage.key(i))) })  ;
-  //     }
-  //     setState(newState)
-
-  //   }
-  // },[])
-
-  // useEffect (() => {
-  //   state.map(el => {
-  //     localStorage.setItem(el.name, el.isDone)
-  //   })
-  // },[state])
-  
   const handleChange = item => {
-    setState(
-      state.map(el => {
-        if (el.id === item.id) {
-          el.isDone = !el.isDone;
-        }
-        return el;
-      })
-    );
+    const { _id, isDone, type } = item;
+    fetch("/things", {
+      credentials: "include",
+      method: "put",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ _id: _id, isDone: !isDone, type: type })
+    })
+      .then(response => response.json())
+      .then(data => setState(data));
   };
 
   return (
@@ -92,20 +68,20 @@ const ThingsTab = () => {
       <FormControl component="fieldset" className={classes.formControl}>
         {/* <FormLabel component="legend">Assign responsibility</FormLabel> */}
         <FormGroup>
-          {state && state.map(item => (
-            <FormControlLabel
-              key={item.id}
-              control={
-                <Checkbox
-                  checked={item.isDone}
-                  onChange={() => handleChange(item)}
-                  value={item.name}
-                />
-              }
-              label={item.name}
-            />
-          ))}
-
+          {!!state.length &&
+            state.map(item => (
+              <FormControlLabel
+                key={item._id}
+                control={
+                  <Checkbox
+                    checked={item.isDone}
+                    onChange={() => handleChange(item)}
+                    value={item.title}
+                  />
+                }
+                label={item.title}
+              />
+            ))}
         </FormGroup>
       </FormControl>
     </div>

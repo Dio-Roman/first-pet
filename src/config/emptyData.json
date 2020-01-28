@@ -63,8 +63,45 @@
   "isDone": false,
   "type": "prepareHome"
 }
-
+,
+{
+  "title": "Проверить цветы",
+  "date": "",
+  "type": "procedures"
+}
+,
+{
+  "title": "Кастрация / стерилизация",
+  "date": "",
+  "type": "procedures"
+}
+,
+{
+  "title": "Обработка от блох и глистов",
+  "date": "",
+  "type": "procedures"
+}
+,
+{
+  "title": "Вакцинировать",
+  "date": "",
+  "type": "procedures"
+}
+,
+{
+  "title": "Чистить уши",
+  "date": "",
+  "type": "procedures"
+}
+,
+{
+  "title": "Причесывать",
+  "date": "",
+  "type": "procedures"
+}
 
 ]
 
-  
+
+
+
