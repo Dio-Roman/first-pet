@@ -114,12 +114,12 @@ router.post('/testnew', (req, res) => {
 
 
 //  менять чекбокс по id в вещах и возвращает обновленный массив
-router.put('/things', (req, res) => {
+router.put('/:things', (req, res) => {
   // res.send({method: 'PUT'})
   console.log(req.body)
   Thing.findByIdAndUpdate({_id: req.body._id}, req.body)
   .then(() => {
-    Thing.find({type: req.body.type})
+    Thing.find({type: req.params.things})
     // Thing.findOne({_id: req.body._id})
     .then(thing => {
       res.send(thing)

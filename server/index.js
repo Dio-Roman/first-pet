@@ -7,7 +7,9 @@ const MongoClient = require('mongodb').MongoClient;
 // const router = express.Router();
 const app = express();
 
+// for PROD:
 mongoose.connect("mongodb://roman:petcoon8@ds261377.mlab.com:61377/firstpet", { useNewUrlParser: true })
+// mongoose.connect("http://localhost:3001", { useNewUrlParser: true })
 
 // const dbase
 //  = client.

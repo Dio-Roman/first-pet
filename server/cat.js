@@ -7,7 +7,8 @@ const thingSchema = new Schema({
   // isDone: Boolean
   title: String,
   isDone: Boolean,
-  type: String
+  type: String,
+  dates: Array
 });
 
 const Thing = mongoose.model("thing", thingSchema);

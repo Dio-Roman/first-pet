@@ -17,7 +17,8 @@ const useStyles = makeStyles(theme => ({
     '& .MuiPickersDay-current.MuiPickersDay-daySelected': {
       color: 'rgba(0, 0, 0, 0.38)'
     }
-  }
+  },
+  select: {border: "2px solid #f2804a"}
 }));
 
 export default useStyles;

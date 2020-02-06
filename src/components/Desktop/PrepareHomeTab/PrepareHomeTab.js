@@ -29,6 +29,22 @@ const PrepareHomeTab = () => {
       .then(data => setState(data))
   },[])
   
+  const handleChange = item => {
+    const { _id, isDone, type } = item;
+    fetch("/prepare-home", {
+      credentials: "include",
+      method: "put",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ _id: _id, isDone: !isDone, type: type })
+    })
+      .then(response => response.json())
+      .then(data => setState(data));
+  };
+
+
+
   return (
 <div className={classes.root}>
       <h1>Необходимые вещи</h1>
@@ -49,7 +65,7 @@ const PrepareHomeTab = () => {
               control={
                 <Checkbox
                   checked={item.isDone}
-                  // onChange={() => handleChange(item)}
+                  onChange={() => handleChange(item)}
                   value={item.title}
                 />
               }

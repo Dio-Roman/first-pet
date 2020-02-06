@@ -1,5 +1,5 @@
 export const mainData = {
-  name: "Имя кота",
+  name: "Феликс",
   birthday: new Date(2019, 8, 1),
   image: "../../../red_mainecoon_06.jpg"
 }
