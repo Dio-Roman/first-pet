@@ -74,12 +74,22 @@ router.post('/listcatname', (req, res) => {
 router.get('/:type', (req, res) => {
   // res.send({method: 'GET'})
   // res.render('GET.txt')
-  // console.log("ok1", req.params.type)
+  console.log("ok1", req.params.type)
   Thing.find({type: `${req.params.type}`})
   .then(thing => {
     res.send(thing)
   })
 });
+
+// router.put('/:type', (req, res) => {
+  // res.send({method: 'GET'})
+  // res.render('GET.txt')
+  // console.log("ok1", req.params.type)
+//   Thing.find({type: `${req.params.type}`})
+//   .then(thing => {
+//     res.send(thing)
+//   })
+// });
 
 // router.get('/:type', (req, res) => {
 //   // res.send({method: 'GET'})
@@ -113,11 +123,13 @@ router.post('/testnew', (req, res) => {
 });
 
 
-//  менять чекбокс по id в вещах и возвращает обновленный массив
+//  добавляет новую дату в массив определенного события
 router.put('/:things', (req, res) => {
   // res.send({method: 'PUT'})
   console.log(req.body)
-  Thing.findByIdAndUpdate({_id: req.body._id}, req.body)
+  Thing.findOneAndUpdate({title: req.body.title}, {dates: [...req.body.dates]})
+
+  // Thing.findByIdAndUpdate({_id: req.body._id}, req.body)
   .then(() => {
     Thing.find({type: req.params.things})
     // Thing.findOne({_id: req.body._id})

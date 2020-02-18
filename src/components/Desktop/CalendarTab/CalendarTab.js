@@ -10,6 +10,7 @@ import ExpandMoreIcon from "@material-ui/core/Icon";
 import MomentUtils from "@date-io/moment";
 import moment from "moment";
 
+import NewEvent from "./NewEvent/NewEvent";
 import useStyles from "./style";
 
 const ExpansionComponent = ({
@@ -18,12 +19,14 @@ const ExpansionComponent = ({
   expandHandler,
   title,
   dates,
-  selectEvent
+  selectEvent,
+  borderNumber
 }) => {
   const classes = useStyles();
-
+  
   return (
     <ExpansionPanel
+      className={classes[`border${borderNumber}`]}
       key={id}
       expanded={expanded === id}
       onChange={expandHandler(id)}
@@ -49,7 +52,7 @@ const ExpansionComponent = ({
               key={elem}
             >
               {elem}
-            </li> //  ref
+            </li>
           ))}
         </ul>
         {/* </Typography> */}
@@ -65,8 +68,6 @@ const CalendarTab = props => {
   const [state, setState] = useState([]);
   const [dateArr, setDateArr] = useState([]);
   const [selectDate, setSelectDate] = useState("");
-
-  let accordeon = React.createRef();
 
   // запрос по типу вещи
   useEffect(() => {
@@ -115,11 +116,10 @@ const CalendarTab = props => {
     setExpanded( id )
   };
 
-  // useEffect(() => {
-
-  // }, [dateArr])
-
   const chooseEvent = value => {
+    console.log(value.format("YYYY, MM, DD"));
+    setSelectDate(value.format("YYYY, MM, DD"))
+
     dateArr.map(el => {
       //  selectedDays
       if (
@@ -133,7 +133,7 @@ const CalendarTab = props => {
         setSelectEvent(`${el.id} ${el.simpleDate}`);
         // console.log(el.event);
         // console.log(accordeon.current);
-        console.log(el.id);
+        // console.log(el.id);
 
         expandHandlerCalendar(el.id)
         // setExpa(true)
@@ -185,8 +185,9 @@ const CalendarTab = props => {
       </div> */}
       <div>
         <h3>Все события:</h3>
-        {state.map(el => (
+        {state.map((el, i) => (
           <ExpansionComponent
+            borderNumber={i}
             key={el._id}
             expanded={expanded}
             id={el._id}
@@ -195,43 +196,9 @@ const CalendarTab = props => {
             dates={el.dates}
             selectEvent={selectEvent}
           />
-
-          // <ExpansionPanel
-          //   key={el._id}
-          //   expanded={expanded === el._id}
-          //   onClick={() => expandHandler(el._id)}
-          // >
-          //   <ExpansionPanelSummary
-          //     expandIcon={<ExpandMoreIcon />}
-          //     aria-controls="panel1a-content"
-          //     // id="panel1a-header"
-          //   >
-          //     <Typography className={classes.heading}>
-          //       {el.title} {/*Expansion Panel 1*/}
-          //     </Typography>
-          //   </ExpansionPanelSummary>
-          //   <ExpansionPanelDetails>
-          //     {/* <Typography> */}
-          //     <ul>
-          //       {el.dates.map(elem => (
-          //         <li
-          //           id={`${el._id} ${elem}`}
-          //           className={
-          //             selectEvent === `${el._id} ${elem}`
-          //               ? `${classes.select}`
-          //               : ""
-          //           }
-          //           key={elem}
-          //         >
-          //           {elem}
-          //         </li> //  ref
-          //       ))}
-          //     </ul>
-          //     {/* </Typography> */}
-          //   </ExpansionPanelDetails>
-          // </ExpansionPanel>
         ))}
       </div>
+      <NewEvent procedures={state} selectDate={selectDate}/>
     </div>
   );
 };
