@@ -22,30 +22,29 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const NewEvent = ({ procedures, selectDate }) => {
+const NewEvent = ({ procedures, selectDate, getProcedures }) => {
   const classes = useStyles();
   const [isHidden, setIsHidden] = useState(false);
 
   const [procedure, setProcedure] = useState({
-    title: '',
+    title: "",
     type: "procedures",
     date: selectDate
-      // ["2020, 01, 14",]
+    // ["2020, 01, 14",]
   });
 
-  useEffect(()=> {
-    setProcedure({...procedure, dates: [selectDate]})
-  },[selectDate])
+  useEffect(() => {
+    setProcedure({ ...procedure, dates: [selectDate] });
+  }, [selectDate]);
 
   const submitHandler = () => {
     const filterDates = procedures.filter(el => {
-      return el.title === procedure.title
-        // console.log('el.title',el.dates);
-        // return el.dates
-      
-    })
-console.log('bar:',filterDates[0].dates);
-console.log('baz:',[...filterDates[0].dates, selectDate]);
+      return el.title === procedure.title;
+      // console.log('el.title',el.dates);
+      // return el.dates
+    });
+    console.log("bar:", filterDates[0].dates);
+    console.log("baz:", [...filterDates[0].dates, selectDate]);
 
     fetch("/procedures", {
       credentials: "include",
@@ -53,11 +52,14 @@ console.log('baz:',[...filterDates[0].dates, selectDate]);
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ title: procedure.title, dates: [...filterDates[0].dates, selectDate] })
-    }
-
-    )
-  }
+      body: JSON.stringify({
+        title: procedure.title,
+        dates: [...filterDates[0].dates, selectDate]
+      })
+    })
+    .then(()=> getProcedures())
+    .then(()=> setIsHidden(false))
+  };
 
   return (
     <div>
@@ -71,14 +73,23 @@ console.log('baz:',[...filterDates[0].dates, selectDate]);
       {isHidden && (
         <form>
           {/* <input type="date" name="date" placeholder="введите дату" /> */}
-          <p>Выберите дату на календаре</p>
+          {!selectDate ? (
+            <p>Выберите дату на календаре.</p>
+          ) : (
+            <p>
+              Выбрана дата: <span> {selectDate}</span>
+            </p>
+          )}
+
           <FormControl className={classes.formControl}>
             <InputLabel id="demo-simple-select-label">Процедура</InputLabel>
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               value={procedure.title}
-              onChange={e => setProcedure({...procedure, title: e.target.value})}
+              onChange={e =>
+                setProcedure({ ...procedure, title: e.target.value })
+              }
             >
               {procedures.map(el => (
                 <MenuItem key={el.title} value={el.title}>

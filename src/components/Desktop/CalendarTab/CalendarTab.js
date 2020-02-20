@@ -69,11 +69,18 @@ const CalendarTab = props => {
   const [dateArr, setDateArr] = useState([]);
   const [selectDate, setSelectDate] = useState("");
 
-  // запрос по типу вещи
-  useEffect(() => {
+  const getProcedures = () => {
     fetch("/procedures") //`/${props.catName}/things`
       .then(response => response.json())
       .then(data => setState(data));
+  };
+
+  // запрос по типу вещи
+  useEffect(() => {
+    // fetch("/procedures") //`/${props.catName}/things`
+    //   .then(response => response.json())
+    //   .then(data => setState(data));
+    getProcedures()
   }, []);
 
   // делает массив из {date: *, event: *} для рендера в календарь
@@ -198,7 +205,7 @@ const CalendarTab = props => {
           />
         ))}
       </div>
-      <NewEvent procedures={state} selectDate={selectDate}/>
+      <NewEvent procedures={state} selectDate={selectDate} getProcedures={getProcedures}/>
     </div>
   );
 };
