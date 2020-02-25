@@ -39,37 +39,6 @@ router.post('/listcatname', (req, res) => {
   })
 });
 
-// что введешь в URL - в ту коллекцию и запрос
-// router.get('/:cat/b', (req, res) => {          //после слэша -  thing
-//   // res.send({method: 'GET'})
-//   // res.render('GET.txt')
-//   // console.log("ok1")
-//   mongoose.model(`${req.params.cat}`, thingSchema).find({"type": "b"})          //сюда тоже {"type":   "thing" }
-//   .then(thing => {
-//     res.send(thing)
-//   })
-// });
-
-// router.get('/cat', (req, res) => {
-//   // res.send({method: 'GET'})
-//   // res.render('GET.txt')
-//   // console.log("ok1")
-//   Thing.find({})     //ищешь всё
-//   .then(data => {
-//     res.send(data)
-//   })
-// });
-
-// router.get('/prepare', (req, res) => {
-  // res.send({method: 'GET'})
-  // res.render('GET.txt')
-  // console.log("ok1")
-//   Prepare.find({"type": "a"})   //ищешь по типу 
-//   .then(prepare => {
-//     res.send(prepare)
-//   })
-// });
-
 //  получить все вещи в коллекции things (/things?type) и процедуры по типу
 router.get('/:type', (req, res) => {
   // res.send({method: 'GET'})
@@ -81,25 +50,6 @@ router.get('/:type', (req, res) => {
   })
 });
 
-// router.put('/:type', (req, res) => {
-//   // res.send({method: 'GET'})
-//   // res.render('GET.txt')
-//   // console.log("ok1", req.params.type)
-//   Thing.find({type: `${req.params.type}`})
-//   .then(thing => {
-//     res.send(thing)
-//   })
-// });
-
-// router.get('/:type', (req, res) => {
-//   // res.send({method: 'GET'})
-//   // res.render('GET.txt')
-//   console.log("ok1", req.params.type)
-//   Thing.find({type: `prepare`})
-//   .then(thing => {
-//     res.send(thing)
-//   })
-// });
 
 // на things in Mongo:  можно массив отсылать и будут 
 // отдельные документы в коллекции
@@ -195,6 +145,58 @@ router.put('/prepare/:id', (req, res) => {
 //   Thing.deleteOne({_id: req.params.id})
 //   .then(thing => {
 //     res.send(thing)
+//   })
+// });
+
+// router.put('/:type', (req, res) => {
+//   // res.send({method: 'GET'})
+//   // res.render('GET.txt')
+//   // console.log("ok1", req.params.type)
+//   Thing.find({type: `${req.params.type}`})
+//   .then(thing => {
+//     res.send(thing)
+//   })
+// });
+
+// router.get('/:type', (req, res) => {
+//   // res.send({method: 'GET'})
+//   // res.render('GET.txt')
+//   console.log("ok1", req.params.type)
+//   Thing.find({type: `prepare`})
+//   .then(thing => {
+//     res.send(thing)
+//   })
+// });
+
+
+// что введешь в URL - в ту коллекцию и запрос
+// router.get('/:cat/b', (req, res) => {          //после слэша -  thing
+//   // res.send({method: 'GET'})
+//   // res.render('GET.txt')
+//   // console.log("ok1")
+//   mongoose.model(`${req.params.cat}`, thingSchema).find({"type": "b"})          //сюда тоже {"type":   "thing" }
+//   .then(thing => {
+//     res.send(thing)
+//   })
+// });
+
+// router.get('/cat', (req, res) => {
+//   // res.send({method: 'GET'})
+//   // res.render('GET.txt')
+//   // console.log("ok1")
+//   Thing.find({})     //ищешь всё
+//   .then(data => {
+//     res.send(data)
+//   })
+// });
+
+// router.get('/prepare', (req, res) => {
+  // res.send({method: 'GET'})
+  // res.render('GET.txt')
+  // console.log("ok1")
+//   Prepare.find({"type": "a"})   //ищешь по типу 
+//   .then(prepare => {
+//     res.send(prepare)
 //   })
 // });
 

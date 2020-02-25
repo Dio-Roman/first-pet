@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -6,6 +6,8 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
+
+import ApiServiceContext from '../../../api-service-context/api-service-context';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -23,6 +25,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const NewEvent = ({ procedures, selectDate, getProcedures }) => {
+  const apiService = useContext(ApiServiceContext);
+
   const classes = useStyles();
   const [isHidden, setIsHidden] = useState(false);
 
@@ -40,22 +44,11 @@ const NewEvent = ({ procedures, selectDate, getProcedures }) => {
   const submitHandler = () => {
     const filterDates = procedures.filter(el => {
       return el.title === procedure.title;
-      // console.log('el.title',el.dates);
-      // return el.dates
     });
-    console.log("bar:", filterDates[0].dates);
-    console.log("baz:", [...filterDates[0].dates, selectDate]);
 
-    fetch("/procedures", {
-      credentials: "include",
-      method: "put",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        title: procedure.title,
-        dates: [...filterDates[0].dates, selectDate]
-      })
+    apiService.setEvent("/procedures", {
+      title: procedure.title,
+      dates: [...filterDates[0].dates, selectDate]
     })
     .then(()=> getProcedures())
     .then(()=> setIsHidden(false))

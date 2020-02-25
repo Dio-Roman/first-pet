@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, Ref } from "react";
+import React, { useState, useCallback, useEffect, Ref, useContext } from "react";
 
 import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
@@ -10,59 +10,13 @@ import ExpandMoreIcon from "@material-ui/core/Icon";
 import MomentUtils from "@date-io/moment";
 import moment from "moment";
 
+import ApiServiceContext from '../../api-service-context/api-service-context';
 import NewEvent from "./NewEvent/NewEvent";
+import ExpansionComponent from "./Expansion";
 import useStyles from "./style";
 
-const ExpansionComponent = ({
-  expanded,
-  id,
-  expandHandler,
-  title,
-  dates,
-  selectEvent,
-  borderNumber
-}) => {
-  const classes = useStyles();
-  
-  return (
-    <ExpansionPanel
-      className={classes[`border${borderNumber}`]}
-      key={id}
-      expanded={expanded === id}
-      onChange={expandHandler(id)}
-    >
-      <ExpansionPanelSummary
-        expandIcon={<ExpandMoreIcon />}
-        aria-controls="panel1a-content"
-        // id="panel1a-header"
-      >
-        <Typography className={classes.heading}>
-          {title} {/*Expansion Panel 1*/}
-        </Typography>
-      </ExpansionPanelSummary>
-      <ExpansionPanelDetails>
-        {/* <Typography> */}
-        <ul>
-          {dates.map(elem => (
-            <li
-              id={`${id} ${elem}`}
-              className={
-                selectEvent === `${id} ${elem}` ? `${classes.select}` : ""
-              }
-              key={elem}
-            >
-              {elem}
-            </li>
-          ))}
-        </ul>
-        {/* </Typography> */}
-      </ExpansionPanelDetails>
-    </ExpansionPanel>
-  );
-};
-
-// ----------------------
 const CalendarTab = props => {
+  const apiService = useContext(ApiServiceContext);
   const { date, /*selectedDays,*/ setClickedDate } = props;
   const classes = useStyles();
   const [state, setState] = useState([]);
@@ -70,16 +24,12 @@ const CalendarTab = props => {
   const [selectDate, setSelectDate] = useState("");
 
   const getProcedures = () => {
-    fetch("/procedures") //`/${props.catName}/things`
-      .then(response => response.json())
+    apiService.getTodoList("/procedures")
       .then(data => setState(data));
   };
 
   // запрос по типу вещи
   useEffect(() => {
-    // fetch("/procedures") //`/${props.catName}/things`
-    //   .then(response => response.json())
-    //   .then(data => setState(data));
     getProcedures()
   }, []);
 
@@ -105,26 +55,21 @@ const CalendarTab = props => {
     { date: new Date("2019, 10, 5"), event: "причесали" }
     // { date: new Date(2019-10-05), event: "причесали" }
   ];
-  // const dat = [new Date(2019, 8, 1),new Date(2019, 8, 1)]
 
   const [selectEvent, setSelectEvent] = useState(null);
 
   const [expanded, setExpanded] = useState(false);
 
   const expandHandler = id => (event, isExpanded) => {
-    // console.log(id, isExpanded);
-
     setExpanded(isExpanded ? id : false);
   };
 
   const expandHandlerCalendar = id  => {
-    // console.log(id, isExpanded);
-
     setExpanded( id )
   };
 
   const chooseEvent = value => {
-    console.log(value.format("YYYY, MM, DD"));
+    // console.log(value.format("YYYY, MM, DD"));
     setSelectDate(value.format("YYYY, MM, DD"))
 
     dateArr.map(el => {
