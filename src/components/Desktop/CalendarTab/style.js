@@ -3,6 +3,12 @@ import { makeStyles } from "@material-ui/styles";
 const borderCommon = "5px solid";
 
 const useStyles = makeStyles(theme => ({
+  "calendar-tab": {
+    display: "grid",
+    gridTemplateColumns: "1fr 1fr",
+    gridGap: "1em",
+    justifyItems: 'center',
+  },
   freeDays: {
     "& button": {
       border: "1px solid #2196f3",
@@ -36,8 +42,7 @@ const useStyles = makeStyles(theme => ({
   border2: { borderLeft: `${borderCommon} blue ` },
   border3: { borderLeft: `${borderCommon} yellow ` },
   border4: { borderLeft: `${borderCommon} grey ` },
-  border5: { borderLeft: `${borderCommon} brown ` },
-
+  border5: { borderLeft: `${borderCommon} brown ` }
 }));
 
 export default useStyles;

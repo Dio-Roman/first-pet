@@ -98,7 +98,7 @@ const CalendarTab = props => {
   const [value, setValue] = useState(new Date());
 
   return (
-    <div style={{ display: "flex" }}>
+    <div className={classes['calendar-tab']}>
       <MuiPickersUtilsProvider utils={MomentUtils}>
         <DatePicker
           disableToolbar

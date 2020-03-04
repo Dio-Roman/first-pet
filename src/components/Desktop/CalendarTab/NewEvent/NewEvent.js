@@ -7,6 +7,8 @@ import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 
+// import useStyles from "./style";
+
 import ApiServiceContext from '../../../api-service-context/api-service-context';
 
 const useStyles = makeStyles(theme => ({
@@ -21,7 +23,15 @@ const useStyles = makeStyles(theme => ({
   },
   selectEmpty: {
     marginTop: theme.spacing(2)
-  }
+  },
+  'new-event': {
+    
+  },
+  'new-event__form': {
+    '& p': {
+      textAlign: 'center'
+    }
+  },
 }));
 
 const NewEvent = ({ procedures, selectDate, getProcedures }) => {
@@ -55,7 +65,7 @@ const NewEvent = ({ procedures, selectDate, getProcedures }) => {
   };
 
   return (
-    <div>
+    <div className={classes['new-event']}>
       <Button
         variant="outlined"
         color="primary"
@@ -64,7 +74,7 @@ const NewEvent = ({ procedures, selectDate, getProcedures }) => {
         Добавить новое событие
       </Button>
       {isHidden && (
-        <form>
+        <form className={classes['new-event__form']}>
           {/* <input type="date" name="date" placeholder="введите дату" /> */}
           {!selectDate ? (
             <p>Выберите дату на календаре.</p>

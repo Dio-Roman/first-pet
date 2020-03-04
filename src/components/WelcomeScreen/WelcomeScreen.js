@@ -1,26 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { Link } from "react-router-dom";
+
 import axios from "axios";
 import { defaultData } from "../../config/emptyData";
 
+import ApiServiceContext from "../api-service-context/api-service-context";
+
 const WelcomeScreen = () => {
+  const apiService = useContext(ApiServiceContext);
+
   const [catName, setCatName] = useState([]);
 
   // ---подгрузить список всех коллекций-котов---
   useEffect(() => {
-    getListCats()
+    getListCats();
   }, []);
 
   const getListCats = () => {
-    fetch("/listcatname")
-      .then(response => {
-        if (!response.ok) {
-          throw new Error(response.statusText);
-        }
-        return response;
-      })
-      .then(response => response.json())
-      .then(data => setCatName(data));
-  }
+    apiService.getListCats("/listcatname").then(data => setCatName(data));
+  };
 
   const [nameValue, setNameValue] = useState("");
 
@@ -29,8 +27,9 @@ const WelcomeScreen = () => {
   };
 
   const sendTemplateData = nameValue => {
-    fetch(`/things`, {  // пробую пока сюда
-    // fetch(`/${nameValue}`, {
+    fetch(`/things`, {
+      // пробую пока сюда
+      // fetch(`/${nameValue}`, {
       method: "post",
       body: JSON.stringify(defaultData), //тут отпраить default data
       headers: {
@@ -53,8 +52,8 @@ const WelcomeScreen = () => {
       }
     })
       .then(sendTemplateData(nameValue)) // вызвать ф-ю к-я отправит пустой шаблон-массив
-      .then(setNameValue(''))  // сбросить имя в поле ввода
-      .then(getListCats())  // обновить список
+      .then(setNameValue("")) // сбросить имя в поле ввода
+      .then(getListCats()) // обновить список
       .catch(err => {
         console.error(err);
       });
@@ -69,7 +68,8 @@ const WelcomeScreen = () => {
           <ul>
             {catName.map(el => (
               <li key={el._id}>
-                <a href={"http://localhost:3001"}>{el.name}</a>
+                {/* <a href={"http://localhost:3001"}>{el.name}</a> */}
+                <Link to={'/felix'}>{el.name}</Link>
               </li>
             ))}
           </ul>

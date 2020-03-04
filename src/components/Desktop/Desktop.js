@@ -1,15 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
-import CalendarTab from './CalendarTab/CalendarTab';
-import PrepareHomeTab from './PrepareHomeTab/PrepareHomeTab';
-import ThingsTab from './ThingsTab/ThingsTab';
+import CalendarTab from "./CalendarTab/CalendarTab";
+import PrepareHomeTab from "./PrepareHomeTab/PrepareHomeTab";
+import ThingsTab from "./ThingsTab/ThingsTab";
 
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
+import { makeStyles, useTheme } from "@material-ui/core/styles";
+import AppBar from "@material-ui/core/AppBar";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
+import Typography from "@material-ui/core/Typography";
+import Box from "@material-ui/core/Box";
+import Button from "@material-ui/core/Button";
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    "& > *": {
+      margin: theme.spacing(1)
+    }
+  }
+}));
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -29,6 +39,7 @@ function TabPanel(props) {
 }
 
 const Desktop = () => {
+  const classes = useStyles();
 
   const [value, setValue] = useState(0);
 
@@ -40,24 +51,28 @@ const Desktop = () => {
     <div>
       <AppBar position="static" color="default">
         <Tabs value={value} onChange={handleChange}>
-          <Tab label="Вещи"/>
-          <Tab label="Подготовка дома"/>
-          <Tab label="Календарь ухода"/>
+          <Tab label="Вещи" />
+          <Tab label="Подготовка дома" />
+          <Tab label="Календарь ухода" />
         </Tabs>
+        
       </AppBar>
-
+<Link to={"/"}>
+          <Button variant="contained" color="secondary">
+            Выход
+          </Button>
+        </Link>
       <TabPanel value={value} index={0}>
-        <ThingsTab/>
+        <ThingsTab />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <PrepareHomeTab/>
+        <PrepareHomeTab />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <CalendarTab/>
+        <CalendarTab />
       </TabPanel>
-
     </div>
-  )
-}
+  );
+};
 
 export default Desktop;
